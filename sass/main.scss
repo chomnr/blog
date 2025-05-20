@@ -101,10 +101,12 @@ code {
 }
 
 /* POSTS (INDEX) */
+/* POSTS (INDEX) */
 .posts {
   display: flex;
   flex-direction: column;
   max-width: 677px;
+  width: 100%;
 }
 
 .posts > .post {
@@ -114,8 +116,7 @@ code {
   padding: 10px 5px;
   border: 1px solid transparent;
   border-bottom: 1px solid #121212;
-  max-width: 100%;
-  overflow: hidden;
+  width: 100%;
   box-sizing: border-box;
 }
 
@@ -130,18 +131,6 @@ code {
 .posts > .post:hover {
   border: 1px solid #242424;
   cursor: pointer;
-}
-
-.content {
-  display: flex;
-  flex: 1;
-  flex-direction: column;
-  gap: 1.5px;
-  user-select: none;
-  position: relative;
-  justify-content: center;
-  min-width: 0;
-  overflow: hidden;
 }
 
 .posts > .post .title {
@@ -159,6 +148,18 @@ code {
   color: var(--color-gray-50);
   white-space: nowrap;
   flex-shrink: 0;
+}
+
+.content {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 1.5px;
+  user-select: none;
+  position: relative;
+  justify-content: center;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .content .header .title {
@@ -257,6 +258,9 @@ code {
 @media only screen and (min-width: 320px) and (max-width: 479px) {
   body {
     padding: 2rem 1rem 2rem 1rem;
+  }
+  .posts > .post .date {
+    display: none;
   }
 }
 

@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <!-- GENERAL -->
+  <title>Zeljko Vranjes - Blog</title>
+  <!-- FONTS -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400;1,700&family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap"
+    rel="stylesheet" />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Roboto+Mono:ital,wght@0,100..700;1,100..700&display=swap"
+    rel="stylesheet" />
+  <!-- STYLESHEETS -->
+  
+  <link rel="stylesheet" href="https://blog.zeljkovranjes.com/main.css" />
+  
+  <link rel="stylesheet" href="https://blog.zeljkovranjes.com/modern-normalize.css" />
+  
+  <!--
+  <meta
+    http-equiv="Content-Security-Policy"
+    content="default-src 'self' ws://127.0.0.1:1024/; img-src 'self' https://*; script-src 'self'; style-src 'self'; font-src 'self'" />
+--></head>
+
+  <body>
+    <main>
+<div class="content">
+  <div class="col" style="gap: 7px">
+    <div
+      class="column"
+      style="font-size: 0.85rem; justify-content: center; gap: 25px">
+      <a href="/" style="text-decoration: none">
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          width="16"
+          height="16"
+          fill="currentColor"
+          class="bi bi-arrow-90deg-left"
+          viewBox="0 0 16 16">
+          <path
+            fill-rule="evenodd"
+            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708z" />
+        </svg>
+        BLOG
+      </a>
+      <div class="header">
+        <div class="title">Technical Breakdown: Vault</div>
+        <div class="date">November, 10, 2024</div>
+      </div>
+      <div class="links">
+        <a
+          href="https://github.com/chomnr/blog/tree/main/content/technical-breakdown-vault.md">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            class="bi bi-code"
+            viewBox="0 0 16 16">
+            <path
+              d="M5.854 4.854a.5.5 0 1 0-.708-.708l-3.5 3.5a.5.5 0 0 0 0 .708l3.5 3.5a.5.5 0 0 0 .708-.708L2.707 8zm4.292 0a.5.5 0 0 1 .708-.708l3.5 3.5a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 0 1-.708-.708L13.293 8z" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="post-content"><h1 id="modern-credential-manager">Modern Credential Manager</h1>
+<p>I released my credential manager last month and am finally getting around to documenting it. This project represents a complete redesign of my previous work, featuring a robust authentication system and web-based architecture for improved accessibility. I've maintained the use of AES symmetric encryption from my previous solution as it remains ideal for securely storing credentials.</p>
+<h2 id="evolution-of-the-project">Evolution of the Project</h2>
+<h3 id="the-predecessor-desktop-based-approach">The Predecessor: Desktop-Based Approach</h3>
+<p>My original credential manager was built as a terminal application in C# with .NET 7. While functional and cross-platform, it had inherent limitations:</p>
+<ul>
+<li>Required executing an <code>.exe</code> file to run the application</li>
+<li>Limited portability despite cross-platform capabilities</li>
+<li>Less convenient access compared to web-based solutions</li>
+</ul>
+<p>The core functionality was straightforward: users would create an AES key and credential store, then upload both to modify their stored credentials.</p>
+<h3 id="the-successor-modern-web-architecture">The Successor: Modern Web Architecture</h3>
+<p>The <a href="https://github.com/chomnr/SimpleCredentialManager">new implementation</a> leverages a completely different technology stack:</p>
+<ul>
+<li><strong>Frontend</strong>: Next.js with TypeScript</li>
+<li><strong>Backend</strong>: Next.js API routes</li>
+<li><strong>Database</strong>: MongoDB with Prisma ORM</li>
+<li><strong>Security</strong>: AES encryption and iron-session for authentication</li>
+</ul>
+<p>This technology selection was deliberate, creating a more accessible and maintainable solution while preserving strong security principles.</p>
+<h2 id="technical-implementation">Technical Implementation</h2>
+<h3 id="database-design">Database Design</h3>
+<p>Rather than storing credentials in files, I chose MongoDB as a NoSQL database solution. This decision was driven by the need for flexibility rather than rigid structure—perfect for a credential manager where different credential types might require different data fields.</p>
+<p>Here's the Prisma schema defining the data models:</p>
+<pre data-lang="typescript" style="background-color:#2b303b;color:#c0c5ce;" class="language-typescript "><code class="language-typescript" data-lang="typescript"><span style="color:#bf616a;">model Vault </span><span>{
+</span><span>  </span><span style="color:#bf616a;">id              </span><span style="color:#ebcb8b;">String       </span><span>@</span><span style="color:#bf616a;">id </span><span>@</span><span style="color:#8fa1b3;">default</span><span>(</span><span style="color:#8fa1b3;">uuid</span><span>()) @</span><span style="color:#8fa1b3;">map</span><span>(&quot;</span><span style="color:#a3be8c;">_id</span><span>&quot;)
+</span><span>  </span><span style="color:#bf616a;">name            </span><span style="color:#ebcb8b;">String
+</span><span>  </span><span style="color:#bf616a;">maxCredentials  Int
+</span><span>  </span><span style="color:#bf616a;">credentials     </span><span style="color:#ebcb8b;">Credential</span><span>[]
+</span><span>  </span><span style="color:#bf616a;">secret          </span><span style="color:#ebcb8b;">String
+</span><span>  </span><span style="color:#bf616a;">iv              </span><span style="color:#ebcb8b;">String
+</span><span>}
+</span><span>
+</span><span style="color:#bf616a;">model </span><span style="color:#ebcb8b;">Credential </span><span>{
+</span><span>  </span><span style="color:#bf616a;">id          </span><span style="color:#ebcb8b;">String   </span><span>@</span><span style="color:#bf616a;">id </span><span>@</span><span style="color:#8fa1b3;">default</span><span>(</span><span style="color:#8fa1b3;">uuid</span><span>()) @</span><span style="color:#8fa1b3;">map</span><span>(&quot;</span><span style="color:#a3be8c;">_id</span><span>&quot;)
+</span><span>  </span><span style="color:#b48ead;">type        </span><span>String
+</span><span>  name        String
+</span><span>  iv          String
+</span><span>  data        String
+</span><span>  createdAt   DateTime @default(now())
+</span><span>  updatedAt   DateTime
+</span><span>
+</span><span>  vaultId     String
+</span><span>  vault       Vault    @relation(fields: [vaultId], references: [id])
+</span><span>}
+</span></code></pre>
+<p>Each vault contains:</p>
+<ul>
+<li>A unique identifier</li>
+<li>Name and capacity limit</li>
+<li>Encrypted validation string (the "secret")</li>
+<li>Initialization vector (IV) for encryption</li>
+<li>Relationship to multiple credentials</li>
+</ul>
+<p>The encryption strategy is selective—only the <code>data</code> field in the <code>Credential</code> model is encrypted. This approach maintains security for sensitive information while keeping metadata like credential type, name, and timestamps accessible for filtering and organization without requiring decryption.</p>
+<p>The <code>secret</code> and <code>iv</code> fields in the <code>Vault</code> model serve a validation purpose. Rather than storing the actual encryption key, I encrypt a known string ("secret") and store the result. When a user provides their key, the system attempts to decrypt this validation string—if successful, the key is proven valid.</p>
+<h3 id="authentication-system">Authentication System</h3>
+<p>The application follows a "one user, multiple vaults" design philosophy. I intentionally hardcoded credentials in environment variables to prevent multiple user accounts, encouraging shared access with separate vaults for different purposes or users.</p>
+<p>Session management is handled through the iron-session library, which provides secure cookie-based authentication:</p>
+<pre data-lang="typescript" style="background-color:#2b303b;color:#c0c5ce;" class="language-typescript "><code class="language-typescript" data-lang="typescript"><span style="color:#b48ead;">export async function </span><span style="color:#8fa1b3;">isAuthenticated</span><span>() {
+</span><span>  </span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">session </span><span>= </span><span style="color:#b48ead;">await </span><span style="color:#8fa1b3;">getIronSession</span><span>(</span><span style="color:#8fa1b3;">cookies</span><span>(), </span><span style="color:#bf616a;">SESSION_OPTIONS</span><span>)
+</span><span>  </span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">COOKIE_AGE_OFFSET </span><span>= </span><span style="color:#8fa1b3;">COOKIE_MAX_AGE</span><span>(</span><span style="color:#bf616a;">session</span><span>?.</span><span style="color:#bf616a;">remember</span><span>) * </span><span style="color:#d08770;">1000
+</span><span>
+</span><span>  </span><span style="color:#b48ead;">if </span><span>(
+</span><span>    !</span><span style="color:#bf616a;">session </span><span>||
+</span><span>    </span><span style="color:#ebcb8b;">Object</span><span>.</span><span style="color:#96b5b4;">keys</span><span>(</span><span style="color:#bf616a;">session</span><span>).length === </span><span style="color:#d08770;">0 </span><span>||
+</span><span>    </span><span style="color:#ebcb8b;">Date</span><span>.</span><span style="color:#8fa1b3;">now</span><span>() &gt; </span><span style="color:#bf616a;">session</span><span>.</span><span style="color:#bf616a;">timeStamp </span><span>+ </span><span style="color:#bf616a;">COOKIE_AGE_OFFSET
+</span><span>  ) {
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">false
+</span><span>  } </span><span style="color:#b48ead;">else </span><span>{
+</span><span>    </span><span style="color:#b48ead;">return </span><span style="color:#d08770;">true
+</span><span>  }
+</span><span>}
+</span></code></pre>
+<p>This implementation:</p>
+<ol>
+<li>Retrieves the encrypted cookie from the request</li>
+<li>Verifies the session's validity and expiration</li>
+<li>Works alongside middleware to protect authenticated routes</li>
+</ol>
+<p>This approach provides a defense-in-depth strategy—even if the authentication is compromised, attackers still need the correct AES key to access any vault data.</p>
+<h3 id="encryption-implementation">Encryption Implementation</h3>
+<p>I maintained AES as the encryption algorithm, using AES-CBC with 256-bit keys for industry-standard security:</p>
+<pre data-lang="typescript" style="background-color:#2b303b;color:#c0c5ce;" class="language-typescript "><code class="language-typescript" data-lang="typescript"><span style="color:#b48ead;">const </span><span style="color:#bf616a;">generatedKey </span><span>= </span><span style="color:#8fa1b3;">randomBytes</span><span>(</span><span style="color:#d08770;">32</span><span>) </span><span style="color:#65737e;">// 256 bits
+</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">cipher </span><span>= </span><span style="color:#bf616a;">forge</span><span>.</span><span style="color:#bf616a;">cipher</span><span>.</span><span style="color:#8fa1b3;">createCipher</span><span>(
+</span><span>  &#39;</span><span style="color:#a3be8c;">AES-CBC</span><span>&#39;,
+</span><span>  </span><span style="color:#bf616a;">forge</span><span>.</span><span style="color:#bf616a;">util</span><span>.</span><span style="color:#8fa1b3;">createBuffer</span><span>(</span><span style="color:#bf616a;">generatedKey</span><span>)
+</span><span>)
+</span><span style="color:#bf616a;">cipher</span><span>.</span><span style="color:#8fa1b3;">start</span><span>({</span><span style="color:#bf616a;">iv</span><span>})
+</span><span style="color:#bf616a;">cipher</span><span>.</span><span style="color:#8fa1b3;">update</span><span>(</span><span style="color:#bf616a;">forge</span><span>.</span><span style="color:#bf616a;">util</span><span>.</span><span style="color:#8fa1b3;">createBuffer</span><span>(&#39;</span><span style="color:#a3be8c;">secret</span><span>&#39;))
+</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">success </span><span>= </span><span style="color:#bf616a;">cipher</span><span>.</span><span style="color:#8fa1b3;">finish</span><span>()
+</span><span>
+</span><span style="color:#b48ead;">if </span><span>(!</span><span style="color:#bf616a;">success</span><span>)
+</span><span>  </span><span style="color:#b48ead;">return </span><span style="color:#8fa1b3;">err_route</span><span>(
+</span><span>    </span><span style="color:#bf616a;">VAULT_ENCRYPTION_FAILED</span><span>.status,
+</span><span>    </span><span style="color:#bf616a;">VAULT_ENCRYPTION_FAILED</span><span>.</span><span style="color:#bf616a;">msg</span><span>,
+</span><span>    </span><span style="color:#bf616a;">VAULT_ENCRYPTION_FAILED</span><span>.code
+</span><span>  )
+</span><span>
+</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">encrypted </span><span>= </span><span style="color:#bf616a;">cipher</span><span>.</span><span style="color:#bf616a;">output
+</span><span style="color:#b48ead;">const </span><span style="color:#bf616a;">headers </span><span>= new Headers()
+</span><span style="color:#bf616a;">headers</span><span>.</span><span style="color:#96b5b4;">set</span><span>(&#39;</span><span style="color:#a3be8c;">Content-Disposition</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">attachment; filename=&quot;aes-key.aes&quot;</span><span>&#39;)
+</span><span style="color:#bf616a;">headers</span><span>.</span><span style="color:#96b5b4;">set</span><span>(&#39;</span><span style="color:#a3be8c;">Content-Type</span><span>&#39;, &#39;</span><span style="color:#a3be8c;">application/octet-stream</span><span>&#39;)
+</span><span>
+</span><span style="color:#b48ead;">await </span><span style="color:#bf616a;">prisma</span><span>.</span><span style="color:#bf616a;">vault</span><span>.</span><span style="color:#8fa1b3;">create</span><span>({
+</span><span>  data: {
+</span><span>    name: </span><span style="color:#bf616a;">name</span><span>,
+</span><span>    maxCredentials: </span><span style="color:#bf616a;">maxCredentials</span><span>,
+</span><span>    secret: </span><span style="color:#ebcb8b;">Buffer</span><span>.</span><span style="color:#8fa1b3;">from</span><span>(</span><span style="color:#bf616a;">encrypted</span><span>.</span><span style="color:#8fa1b3;">getBytes</span><span>(), &#39;</span><span style="color:#a3be8c;">binary</span><span>&#39;).</span><span style="color:#96b5b4;">toString</span><span>(&#39;</span><span style="color:#a3be8c;">base64</span><span>&#39;),
+</span><span>    iv: </span><span style="color:#ebcb8b;">Buffer</span><span>.</span><span style="color:#8fa1b3;">from</span><span>(</span><span style="color:#bf616a;">iv</span><span>, &#39;</span><span style="color:#a3be8c;">binary</span><span>&#39;).</span><span style="color:#96b5b4;">toString</span><span>(&#39;</span><span style="color:#a3be8c;">base64</span><span>&#39;)
+</span><span>  }
+</span><span>})
+</span><span>
+</span><span style="color:#bf616a;">prisma</span><span>.</span><span style="color:#8fa1b3;">$disconnect</span><span>()
+</span><span style="color:#b48ead;">return </span><span>new NextResponse(</span><span style="color:#ebcb8b;">Buffer</span><span>.</span><span style="color:#8fa1b3;">from</span><span>(</span><span style="color:#bf616a;">generatedKey</span><span>).</span><span style="color:#96b5b4;">toString</span><span>(&#39;</span><span style="color:#a3be8c;">base64</span><span>&#39;), {
+</span><span>  status: </span><span style="color:#d08770;">200</span><span>,
+</span><span>  </span><span style="color:#bf616a;">headers
+</span><span>})
+</span></code></pre>
+<p>When a user creates a vault:</p>
+<ol>
+<li>The system generates a cryptographically secure 256-bit key</li>
+<li>This key encrypts a known validation string ("secret")</li>
+<li>The encrypted validation string and IV are stored in the database</li>
+<li>The actual encryption key is returned to the user for safekeeping</li>
+<li>This key must be provided for future access to the vault</li>
+</ol>
+<p>This approach ensures the encryption key never remains on the server, maintaining a zero-knowledge security model.</p>
+<h2 id="key-benefits-of-the-new-design">Key Benefits of the New Design</h2>
+<ol>
+<li><strong>Improved Accessibility</strong>: Web-based interface accessible from any modern browser</li>
+<li><strong>Flexible Data Structure</strong>: NoSQL database accommodates various credential types</li>
+<li><strong>Enhanced Security</strong>: Maintains strong encryption while adding authentication layer</li>
+<li><strong>Better User Experience</strong>: More intuitive interface compared to terminal application</li>
+<li><strong>Selective Encryption</strong>: Encrypts only sensitive data, improving performance and usability</li>
+</ol>
+<h2 id="conclusion">Conclusion</h2>
+<p>This credential manager represents a significant improvement over its predecessor, transitioning from a terminal-based application to a modern web solution while preserving strong security principles. The combination of Next.js, MongoDB, Prisma, and proven encryption standards creates a secure yet accessible credential management system.</p>
+<p>The "one user, multiple vaults" approach provides flexibility while maintaining simplicity in the authentication system. Each vault requires its own encryption key, ensuring compartmentalized security even when multiple users share the same login.</p>
+<p>While there are still opportunities for enhancement (such as refining the session expiration mechanism), the current implementation successfully balances security, usability, and modern web architecture.</p>
+ </main>
+  </body>
+</html>
