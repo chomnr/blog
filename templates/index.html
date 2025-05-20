@@ -1,2 +1,28 @@
-{% extends "base.html" %} {% block content %} {% include "partials/author.html"
-%} {% include "partials/posts.html" %} {% endblock content %}
+{% extends "base.html" %}
+{% block content %}
+<section class="hero">
+    <div class="author">
+        <div class="avatar"></div>
+        <div class="meta">
+            <span class="name">ZELJKO VRANJES</span>
+            <span class="sub">PERSONAL BLOG</span>
+        </div>
+    </div>
+    <div class="links">
+        {% include "partial/social/github.html" %}
+        {% include "partial/social/x.html" %}
+        {% include "partial/social/npm.html" %}
+    </div>
+</section>
+<section class="content">
+{% set blog_section = get_section(path="blog/_index.md") %}
+{% for year, posts in blog_section.pages | group_by(attribute="year") %}
+  {% for post in posts %}
+    <article onclick="window.location='{{ post.permalink }}'" style="cursor: pointer;">
+      <span class="title">{{ post.title }}</span>
+      <span class="date">{{ post.date | date(format="%B, %-d, %Y") }}</span>
+    </article>
+  {% endfor %}
+{% endfor %}
+</section>
+{% endblock content %}

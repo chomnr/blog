@@ -1,5 +1,5 @@
 +++
-title = "Tutorial: Setup Cloudflare Zero Trust with Docker"
+title = "Setup Cloudflare Zero Trust with Docker"
 date = 2024-12-30
 +++
 

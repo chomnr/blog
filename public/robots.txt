@@ -1,4 +1,0 @@
-User-agent: *
-Disallow:
-Allow: /
-Sitemap: https://blog.zeljkovranjes.com/sitemap.xml

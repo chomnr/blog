@@ -1,0 +1,20 @@
+{% extends "base.html" %} 
+{% block content %} {% include "partial/base/header.html" %}
+<section class="hero">
+  <div class="entries">
+    <div class="meta">
+      <a href="/" class="name">⮌&nbsp;ENTRIES</a>
+    </div>
+  </div>
+</section>
+<section class="content">
+  {% for page in section.pages %}
+  <article
+    onclick="window.location='{{ page.permalink | safe }}'"
+    style="cursor: pointer">
+    <span class="title">{{ page.title }}</span>
+    <span class="date">{{ page.date | date(format="%B, %-d, %Y") }}</span>
+  </article>
+  {% endfor %}
+</section>
+{% endblock content %}

@@ -1,5 +1,160 @@
+/* STYLING */
 :root {
-  /* took it from tailwindcss i hope they dont mind */
+  --color-background: #0a0a0a;
+
+  --max-width-page: 683px;
+  --max-height-gap: 29px;
+
+  --default-font: 'Roboto Mono', monospace;
+
+  --hero-author-avatar-border: 1px solid #a9a9a9;
+  --hero-author-avatar-height: 37px;
+  --hero-author-avatar-width: 37px;
+}
+
+/* TYPE SELECTORS */
+html {
+  background: var(--color-background);
+}
+
+body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-family: var(--default-font);
+  padding: 61px 5px 61px 5px;
+}
+
+main {
+  display: flex;
+  flex-direction: column;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  width: 100%;
+  max-width: var(--max-width-page);
+  gap: var(--max-height-gap);
+}
+
+main > section {
+  display: flex;
+}
+
+a {
+  color: white;
+  outline: none;
+}
+
+/* CLASS SELECTORS */
+section.hero {
+  align-items: center;
+  color: white;
+  padding: 0px 5px 0px 5px;
+}
+
+section.hero .author {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+section.hero .author .avatar {
+  border: var(--hero-author-avatar-border);
+  content: url(https://avatars.githubusercontent.com/u/68818452?v=4);
+  width: var(--hero-author-avatar-height);
+  height: var(--hero-author-avatar-width);
+}
+
+section.hero .author .meta {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  gap: 3px;
+}
+
+section.hero .author .meta .name {
+  font-size: 0.71rem;
+}
+
+section.hero .author .meta .sub {
+  font-size: 0.61rem;
+  color: #a9a9a9;
+}
+
+section.hero .entries {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+section.hero .entries .meta {
+  display: flex;
+  flex-direction: column;
+  user-select: none;
+  gap: 3px;
+}
+
+section.hero .entries .meta .name {
+  text-decoration: none;
+  font-size: 0.71rem;
+}
+
+section.hero .links {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  gap: 5px;
+}
+
+section.content {
+  flex: 1;
+  flex-direction: column;
+  color: #a9a9a9;
+  gap: 3px;
+}
+
+section.content article {
+  display: flex;
+  align-items: center;
+  border: 1px solid transparent;
+  font-size: 0.73rem;
+  padding: 10px 5px 10px 5px;
+  border-bottom: 1px solid #161616;
+  .title {
+    flex: 1;
+    text-decoration: none;
+  }
+
+  &:hover {
+    .title {
+      text-decoration: underline;
+      text-decoration-color: #2f2f2f;
+      text-underline-offset: 0.23rem;
+    }
+  }
+
+  &:nth-child(even) {
+    border-left: 1px solid #161616;
+  }
+  &:nth-child(odd) {
+    border-right: 1px solid #161616;
+  }
+}
+
+@media (max-width: 767px) {
+  section.content article {
+    flex-direction: column;
+    align-items: normal;
+    justify-content: center;
+    gap: 3px;
+    .date {
+      font-size: 0.67rem;
+    }
+  }
+}
+/*
+:root {
   --color-gray-50: oklch(0.984 0.003 247.858);
   --color-gray-100: oklch(0.968 0.007 247.896);
   --color-gray-200: oklch(0.929 0.013 255.508);
@@ -54,10 +209,8 @@ pre {
 code {
   font-family: 'Fira Mono', monospace;
   font-size: 1rem;
-  /* padding inside code can be adjusted but usually handled by pre */
 }
 
-/* AUTHOR */
 .author {
   display: flex;
   flex: 1;
@@ -100,8 +253,7 @@ code {
   right: 0;
 }
 
-/* POSTS (INDEX) */
-/* POSTS (INDEX) */
+
 .posts {
   display: flex;
   flex-direction: column;
@@ -134,8 +286,8 @@ code {
 }
 
 .posts > .post .title {
-  white-space: normal; /* Allow wrapping */
-  overflow-wrap: break-word; /* Break long words */
+  white-space: normal; 
+  overflow-wrap: break-word;
   color: var(--color-gray-50);
   width: 100%;
   min-width: 0;
@@ -245,7 +397,6 @@ code {
   }
 }
 
-/* HELPER */
 .row {
   display: flex;
   flex-direction: row;
@@ -298,3 +449,4 @@ code {
   scrollbar-width: thin;
   scrollbar-color: #010101 #242424;
 }
+*/
