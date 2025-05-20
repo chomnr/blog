@@ -136,7 +136,6 @@ code {
 .posts > .post .title {
   white-space: normal; /* Allow wrapping */
   overflow-wrap: break-word; /* Break long words */
-  max-width: 400px;
   color: var(--color-gray-50);
   width: 100%;
   min-width: 0;
@@ -166,7 +165,7 @@ code {
   font-size: 1rem;
   font-weight: 600;
   color: #a9a9a9;
-  max-width: 400px;
+  max-width: 428px;
 }
 
 .content .header .date {
@@ -245,6 +244,7 @@ code {
     margin-bottom: 8px;
   }
 }
+
 /* HELPER */
 .row {
   display: flex;
@@ -263,17 +263,34 @@ code {
   .posts > .post .date {
     display: none;
   }
+
+  .posts > .post .title {
+    max-width: 320px;
+  }
+  .content .header .title {
+    max-width: 320px;
+  }
 }
 
 @media only screen and (min-width: 480px) and (max-width: 767px) {
   body {
     padding: 2rem 1rem 2rem 1rem;
   }
+  .posts > .post .date {
+    display: none;
+  }
+
+  .posts > .post .title {
+    max-width: 480px;
+  }
 }
 
 @media only screen and (min-width: 768px) and (max-width: 991px) {
   body {
     padding: 2rem 1rem 2rem 1rem;
+  }
+  .posts > .post .title {
+    max-width: 677px;
   }
 }
 
