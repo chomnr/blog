@@ -1,0 +1,13 @@
+{% block content %}
+<div class="posts">
+  {% for page in section.pages %}
+  <a
+    href="{{ page.permalink | safe }}"
+    style="text-decoration: none"
+    class="post">
+    <div class="title">{{ page.title }}</div>
+    <div class="date">{{ page.date | date(format="%B, %-d, %Y") }}</div>
+  </a>
+  {% endfor %}
+</div>
+{% endblock content %}
