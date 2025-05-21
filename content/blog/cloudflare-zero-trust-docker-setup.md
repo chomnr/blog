@@ -3,6 +3,8 @@ title = "Setup Cloudflare Zero Trust with Docker"
 date = 2024-12-30
 +++
 
+# How to route your traffic from your server through Cloudflare Zero Trust.
+
 # Prerequisites
 
 - Server (Optional)
