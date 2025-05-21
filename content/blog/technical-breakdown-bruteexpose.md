@@ -3,132 +3,122 @@ title = "Technical Breakdown: BruteExpose"
 date = 2023-04-15
 +++
 
-# Live Security Monitor (Formerly BruteExpose)
+# Live Security Monitor
 
-_Project inspired by [Brute.Fail](https://brute.fail/)_
+Project inspired by [Brute.Fail](https://brute.fail/)
 
 ## Project Overview
 
-[Live Security Monitor](https://github.com/chomnr/live-security-monitor) tracks login attempts to OpenSSH servers, recording:
+[Live Security Monitor](https://github.com/chomnr/live-security-monitor) (formerly BruteExpose) logs login attempts to OpenSSH servers. It captures:
 
 - Credentials used
-- Origin (IP address & country)
+- Origin (IP & country)
 - Attack protocol
-- Timestamp of attempt
+- Timestamp
 
-This security monitoring tool provides valuable insights into potential brute force attacks on your server infrastructure (you really shouldn't because we have to patch OpenSSH to get to actually to work.).
+## Technical Implementation
 
-## Technology Choice
+### Language Choice
 
-I developed this project in Java primarily to diversify my portfolio. In retrospect, C or C++ would have been more suitable languages for this application because they're low level languages. My familiarity with Java from previous Minecraft plugin development made it a comfortable choice, though not necessarily the optimal one.
+I chose Java because I wanted to add a Java project to my portfolio. In retrospect, C or C++ would have been more appropriate for this use case. Java familiarity from Minecraft plugin development made it a comfortable choice.
 
-## Metrics & Analytics System
+### Metrics & Analytics System
 
-### Data Collection
+#### Data Collection
 
-For collecting geographic metrics, I implemented IPInfo's MaxMind database (mmdb). While functional, this approach requires regular database updates to maintain accuracy. In retrospect, implementing the IPInfo API would have provided better maintainability and more current data.
+For gathering metrics, I used IPInfo's .mmdb (MaxMind database). This required manual updates to prevent errors. The IPInfo API would have been a better choice.
 
-### Analytics Processing
+#### Analytics Processing
 
-The application includes a modular analytics system that processes collected data into meaningful insights. The system is designed for extensibility, allowing easy addition or removal of different statistical metrics that are automatically reflected in the JSON output.
+I implemented a modular analytics system where statistics can be easily added or removed. The system updates JSON files where metrics are tracked.
 
-#### Currently Supported Analytics (as of June 1, 2024):
+Current analytics (as of 6/1/2024):
 
-- Number of attempts over time
-- Attack totals by day of week
-- Distribution of attack protocols
-- Attack origins by country
-- Attack origins by IP address
-- Commonly targeted credentials
+- NumberOfAttemptsOverTime
+- AttackTotalByDayOfWeek
+- DistributionOfAttackProtocols
+- AttackOriginByCountry
+- AttackOriginByIp
+- CommonlyTargetedByCredential
 
-### Implementation Example
+#### Implementing Custom Analytics
 
-Below is an example of how analytics are implemented in the system:
+Here's how to add your own analytics:
 
-#### ProtocolBasedMetrics.java
+**ProtocolBasedMetrics.java**
 
-This class populates protocol-related metrics in the JSON tracking file. Multiple statistics can be processed through a single method since they often correlate:
+This file populates values in the JSON file that tracks analytics. Related metrics are grouped into a single function:
 
 ```java
-private DistributionOfAttackProtocols distributionOfAttackProtocols;
-
+private DistributionOfAttackProtocols distributionOfAttackProtocols
 public enum ProtocolBasedType {
-    SSH,
-    UNKNOWN
+  SSH,
+  UNKNOWN
 }
-
 public ProtocolBasedMetrics() {
-    distributionOfAttackProtocols = new DistributionOfAttackProtocols();
+  distributionOfAttackProtocols = new DistributionOfAttackProtocols();
 }
-
 public DistributionOfAttackProtocols getDistributionOfAttackProtocols() {
-    return distributionOfAttackProtocols;
+  return distributionOfAttackProtocols;
 }
-
 public void populate(String name, int amount) {
-    getDistributionOfAttackProtocols().insert(name, amount);
+  getDistributionOfAttackProtocols().insert(name, amount);
 }
-
 public void populate(ProtocolBasedType type, int amount) {
-    getDistributionOfAttackProtocols().insert(type, amount);
+  getDistributionOfAttackProtocols().insert(type, amount);
 }
-
 public void populate(String type) {
-    getDistributionOfAttackProtocols().insert(type, 1);
+  getDistributionOfAttackProtocols().insert(type, 1);
 }
-
 public void populate(ProtocolBasedType type) {
-    getDistributionOfAttackProtocols().insert(type, 1);
+  getDistributionOfAttackProtocols().insert(type, 1);
 }
 ```
 
-#### DistributionOfAttackProtocols.java
+**DistributionOfAttackProtocols.java**
 
-This class represents a specific tracked statistic using a simple HashMap structure that is processed by the JSON Object Mapper:
+The actual stat tracking mechanism using a HashMap:
 
 ```java
-private HashMap<String, Integer> protocols = new HashMap<>();
-
+private HashMap protocols = new HashMap<>();
 public DistributionOfAttackProtocols() {}
-
 public void insert(String type, int amount) {
     ProtocolBasedType protocolType = getProtocolByName(type);
     addAttempts(protocolType, amount);
 }
-
 public void insert(ProtocolBasedType type, int amount) {
     addAttempts(type, amount);
 }
-
 private void addAttempts(ProtocolBasedType type, int amount) {
     String protocolName = getNameOfProtocol(type);
 
     if (protocols.get(protocolName) == null) {
         protocols.put(protocolName, amount);
     } else {
-        protocols.put(protocolName, getAttempts(type) + amount);
+        protocols.put(protocolName, getAttempts(type)+amount);
     }
 }
-
 private Integer getAttempts(ProtocolBasedType type) {
     return protocols.get(getNameOfProtocol(type));
 }
-
 public ProtocolBasedType getProtocolByName(String protocol) {
-    if (protocol.equalsIgnoreCase("sshd") || protocol.equalsIgnoreCase("ssh")) {
+    if (protocol.equalsIgnoreCase("sshd")) {
         return ProtocolBasedType.SSH;
     }
+    if (protocol.equalsIgnoreCase("ssh")) {
+        return ProtocolBasedType.SSH;
+    }
+    // or return UNKNOWN
     return ProtocolBasedType.UNKNOWN;
 }
-
 private String getNameOfProtocol(ProtocolBasedType type) {
     return type.name();
 }
 ```
 
-#### BruteMetricData.java
+**BruteMetricData.java**
 
-This core class instantiates and manages all analytics and metrics components:
+Where analytics are instantiated:
 
 ```java
 private TimeBasedMetrics timeBasedMetrics;
@@ -146,35 +136,26 @@ public BruteMetricData() {
 public TimeBasedMetrics getTimeBasedMetrics() {
     return timeBasedMetrics;
 }
-
-public GeographicMetrics getGeographicMetrics() {
-    return geographicMetrics;
-}
-
-public ProtocolBasedMetrics getProtocolBasedMetrics() {
-    return protocolBasedMetrics;
-}
-
-public CredentialBasedMetrics getCredentialBasedMetrics() {
-    return credentialBasedMetrics;
-}
+public GeographicMetrics getGeographicMetrics() { return geographicMetrics; }
+public ProtocolBasedMetrics getProtocolBasedMetrics() { return protocolBasedMetrics; }
+public CredentialBasedMetrics getCredentialBasedMetrics() { return credentialBasedMetrics; }
 ```
 
-## OpenSSH Integration
+## OpenSSH Modification
 
-### Modifying OpenSSH
+### Disabling Password Protection
 
-Standard OpenSSH includes a security mechanism that prevents credential leaking by overwriting incorrect password entries with `^M^?INCORRECT^@`. To capture these credentials, you must disable this protection by removing the following line from OpenSSH's source code:
+Standard OpenSSH includes a safety mechanism that prevents password leaking through timing attacks. When trying to dump passwords, you'll see:
 
 ```
-https://github.com/openssh/openssh-portable/blob/df56a8035d429b2184ee94aaa7e580c1ff67f73a/auth-pam.c#L1198
+^M^?INCORRECT^@
 ```
 
-**Note:** This modification intentionally introduces a security vulnerability to enable monitoring functionality.
+To bypass this, remove the following line in the OpenSSH source code: https://github.com/openssh/openssh-portable/blob/df56a8035d429b2184ee94aaa7e580c1ff67f73a/auth-pam.c#L1198
 
-### Credential Dumping
+### Credential Logging
 
-The application captures login credentials through a simple PAM module that writes to a text file:
+To capture credentials, we need a PAM module to dump them to a text file:
 
 ```c
 #include "library.h"
@@ -201,6 +182,8 @@ PAM_EXTERN int pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, cons
     pam_get_item(pamh, PAM_SERVICE, (void*)&protocol);
 
     // Added a delay to ensure that BruteExpose gets to read the entry.
+    // In terms of practicality, I should have wrote the entire program in C,
+    // but I am not familiar with the language.
     usleep(BE_DELAY);
 
     FILE *fd = fopen(BE_LOG_FILE, "a");
@@ -213,41 +196,33 @@ PAM_EXTERN int pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, cons
 }
 ```
 
-The Java application monitors `brute_tracker.txt` for changes, processing new entries as they appear.
-
 ### PAM Module Integration
 
 After compiling the PAM module:
 
-1. Copy the `.pam` file to `/lib/x86_64-linux-gnu/security/`
-2. Edit the PAM configuration with `sudo nano /etc/pam.d/common-auth`
-3. Add the following entry before the deny statement:
+1. Place the .pam file in `/lib/x86_64-linux-gnu/security/`
+2. Edit common-auth: `sudo nano /etc/pam.d/common-auth`
+3. Add `libbe_pam.so` before the password denial:
 
 ```
 # here are the per-package modules (the "Primary" block)
 auth    [success=2 default=ignore]      pam_unix.so nullok
-# enable Live Security Monitor
+# enable BruteExpose.
 auth    optional                        libbe_pam.so
 # here's the fallback if no module succeeds
 auth    requisite                       pam_deny.so
 ```
 
-This configuration ensures that if `pam_unix.so` authentication succeeds, the next two lines are skipped. Otherwise, our monitoring module captures the credentials before access is denied.
+This configuration makes the system check `pam_unix.so` first. If successful, it skips the next 2 lines. If not, it hits our module and then the denial module.
 
 ## Lessons Learned
 
-### Architecture Improvements
+What I would do differently:
 
-If I were to rebuild this project, I would make the following changes:
+1. Skip the modular analytics system for a simpler hardcoded approach. The current approach adds complexity for a project that requires an OpenSSH vulnerability to function.
 
-1. **Simplify Analytics**: Replace the modular analytics system with hardcoded solutions for better simplicity and performance. The current design, while flexible, introduces unnecessary complexity for this specific use case.
+2. Use C for the entire project rather than Java. Using two languages introduces unnecessary complexity.
 
-2. **Language Selection**: Implement the entire solution in C rather than using Java. The multi-language approach creates maintenance challenges and introduces unnecessary complexity.
+3. Use the IPInfo API instead of .mmdb files to avoid manual updates.
 
-3. **IP Data Source**: Use the IPInfo API instead of the mmdb database to eliminate the need for manual database updates and ensure more current geolocation data.
-
-4. **Data Storage**: Replace the JSON-based storage with SQLite. JSON becomes inefficient at scale, particularly for reading operations, whereas SQLite would provide better performance for both reading and writing operations.
-
-## Conclusion
-
-While functional, this project serves primarily as a learning experience rather than a production-ready security tool. The intentional OpenSSH vulnerability makes it unsuitable for legitimate security applications, but the development process provided valuable insights into system-level programming, credential monitoring techniques, and data analytics.
+4. Replace JSON with SQLite for better data handling. JSON has read limitations when file size grows, while SQLite handles both read and write operations efficiently.
