@@ -211,3 +211,16 @@ section.content article.page img {
   display: block;
   margin: 10px 0;
 }
+
+pre,
+code {
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+pre {
+  overflow-x: auto;
+  padding: 1em;
+  background-color: #f5f5f5;
+  border-radius: 5px;
+}

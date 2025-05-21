@@ -5,7 +5,7 @@ date = 2024-11-10
 
 # Modern Credential Manager
 
-I released my credential manager last month and am finally getting around to documenting it. This project represents a complete redesign of my previous work, featuring a robust authentication system and web-based architecture for improved accessibility. I've maintained the use of AES symmetric encryption from my previous solution as it remains ideal for securely storing credentials.
+I released my credential manager last month and am finally getting around to documenting it. This project represents a complete redesign of my previous work, featuring an authentication system and web-based architecture. I've maintained the use of AES symmetric encryption from my previous solution as it remains ideal for securely storing credentials.
 
 ## Evolution of the Project
 
