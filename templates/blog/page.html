@@ -3,9 +3,10 @@
   <div class="page">
     <div class="meta">
       <a href="/blog" class="name">↩&nbsp;PAGE</a>
-      <br />
-      <a class="title">{{ page.title }}</a>
-      <a class="date">{{ page.date | date(format="%B, %-d, %Y") }}</a>
+      <div style="display: flex; flex-direction: column">
+        <a class="title">{{ page.title }}</a>
+        <a class="date">{{ page.date | date(format="%B, %-d, %Y") }}</a>
+      </div>
     </div>
   </div>
 </section>
