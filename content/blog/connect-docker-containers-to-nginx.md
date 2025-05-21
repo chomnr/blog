@@ -42,7 +42,7 @@ docker network create %networkname%
 2. Now that the network is created, you must assign the container the network with the flag below.
 
 ```bash
-bash --network %networkname%
+--network %networkname%
 ```
 
 3.  Then run the command below and make sure that the containers are part of the same network.
