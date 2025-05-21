@@ -1,6 +1,9 @@
 <!DOCTYPE html>
 <html lang="en">
-  {% include "partial/base/header.html" %} 
+  <head>
+      {% include "partial/base/header.html" %}
+      {% include "partial/utility/posthog.html" %}
+  </head>
   <body>
     <main>{% block content %} {% endblock content %}</main>
   </body>
