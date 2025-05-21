@@ -1,4 +1,18 @@
 {% extends "base.html" %} {% block content %}
+<section class="hero">
+  <div class="page">
+    <div class="meta">
+      <a href="/blog" class="name">↩&nbsp;PAGE</a>
+      <br />
+      <a class="title">{{ page.title }}</a>
+      <a class="date">{{ page.date | date(format="%B, %-d, %Y") }}</a>
+    </div>
+  </div>
+</section>
+<section class="content">
+  <article class="page">{{ page.content | safe }}</article>
+</section>
+<!--
 <div class="content">
   <div class="col" style="gap: 7px">
     <div
@@ -40,4 +54,7 @@
     </div>
   </div>
 </div>
-<div class="post-content">{{ page.content | safe }} {% endblock content %}</div>
+<div class="post-content">{{ page.content | safe }} 
+  
+-->
+{% endblock content %}

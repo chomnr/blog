@@ -13,7 +13,7 @@ Below, I'll walk through my thought process and reasoning behind key design deci
 
 ### Task System
 
-The Task System was designed to streamline database operations. Rather than repeatedly reinstantiating database connections to update fields, we can _queue_ desired tasks through a specialized system. This approach significantly improves function clarity and execution efficiency.
+The Task System was designed to delegate database operations (it's pretty much just an actor). Rather than repeatedly reinstantiating database connections to update fields, we can _queue_ desired tasks through a specialized system. This approach significantly improves function clarity and execution efficiency.
 
 ![Task System Architecture](https://substackcdn.com/image/fetch/w_1456,c_limit,f_auto,q_auto:good,fl_progressive:steep/https%3A%2F%2Fsubstack-post-media.s3.amazonaws.com%2Fpublic%2Fimages%2Fe7391452-e63c-4bf5-995b-1c62aa48c8aa_676x316.png)
 

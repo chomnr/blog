@@ -9,7 +9,7 @@
 </section>
 <section class="content">
   {% for page in section.pages %}
-  <article
+  <article class="index"
     onclick="window.location='{{ page.permalink | safe }}'"
     style="cursor: pointer">
     <span class="title">{{ page.title }}</span>
