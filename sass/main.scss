@@ -41,7 +41,7 @@ main {
   display: flex;
   flex-direction: column;
   overflow-wrap: break-word;
-  word-break: break-all;
+  word-break: auto-phrase;
   hyphens: auto;
   width: 100%;
   max-width: var(--max-width-page);

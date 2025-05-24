@@ -1,57 +1,44 @@
 +++
-title = "Connecting Docker Containers to NGINX"
+title = "How to Connect Docker Containers to NGINX"
 date = 2025-01-05
 +++
 
-# How to Connect Your Docker Containers to NGINX
+This guide shows you how to connect your Docker containers to NGINX for reverse proxying and load balancing.
 
-## Prerequisites
-
-- Server (Optional)
-- Docker
+**What you'll need:**
+- Server (optional)
+- Docker installed 
 - NGINX
 
-## NGINX Installation
+**Getting started:**
 
-You can set up NGINX **via or without Docker**, but this example will use Docker.
+You can set up NGINX with or without Docker, but this example uses Docker. If you need to install NGINX, check the official guide at [https://nginx.org/en/docs/install.html](https://nginx.org/en/docs/install.html). For Docker installation, follow the documentation at [https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/).
 
-Refer to the official NGINX installation guide:  
-[https://nginx.org/en/docs/install.html](https://nginx.org/en/docs/install.html)
+If you're running NGINX in Docker, you'll need to mount your `nginx.conf` file from your server. If you're unfamiliar with mounting files in Docker, this guide explains it well: [https://www.baeldung.com/ops/docker-mount-single-file-in-volume](https://www.baeldung.com/ops/docker-mount-single-file-in-volume).
 
-## Docker Installation
+**Setting up the network:**
 
-Before doing anything, install Docker first.  
-Refer to the Docker documentation for installation instructions:  
-[https://docs.docker.com/engine/install/](https://docs.docker.com/engine/install/)
-
-## Setup
-
-Assuming you already have NGINX set up, you should mount the `nginx.conf` on your server if you're using Docker.  
-If you don't know how to mount files in Docker, see this guide:  
-[https://www.baeldung.com/ops/docker-mount-single-file-in-volume](https://www.baeldung.com/ops/docker-mount-single-file-in-volume)
-
-1. **Create a Docker network**
-
-Create a network that the NGINX container and your other containers will share.  
-Your containers and NGINX **must** share the same network.
+The key to connecting containers to NGINX is using a shared Docker network. Create a network that both NGINX and your application containers will use:
 
 ```bash
 docker network create %networkname%
 ```
 
-2. Now that the network is created, you must assign the container the network with the flag below.
+When running your containers, add the network flag to ensure they can communicate:
 
 ```bash
 --network %networkname%
 ```
 
-3.  Then run the command below and make sure that the containers are part of the same network.
+Verify that your containers are on the same network by inspecting it:
 
 ```bash
-network inspect %networkname%
+docker network inspect %networkname%
 ```
 
-4. Now go into your nginx.conf and use the following server block code to resolve your desired Docker container.
+**Configuring NGINX:**
+
+Add this server block to your `nginx.conf` to proxy requests to your Docker container:
 
 ```conf
 server {
@@ -74,6 +61,8 @@ server {
 }
 ```
 
-5. This SHOULD resolve. If it still doesn't, the container and NGINX are not part of the same network, or the container doesn't have a port exposed.
+Replace `container_name` with your actual container name and `container_port` with the port your application is listening on inside the container.
 
-DNS resolution only works on custom networks. If you're hosting NGINX on the actual machine instead of a container, DNS resolution via the container's name might not work. If not, try using the container's IP instead.
+**Troubleshooting:**
+
+If the connection isn't working, check that both containers are on the same network and that your application container has the correct port exposed. DNS resolution using container names only works on custom networks - if you're running NGINX directly on the host machine instead of in a container, you might need to use the container's IP address instead of its name.

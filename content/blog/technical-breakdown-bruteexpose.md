@@ -3,51 +3,33 @@ title = "Technical Breakdown: BruteExpose"
 date = 2023-04-15
 +++
 
-# Live Security Monitor
+A security monitoring tool that logs login attempts to OpenSSH servers, inspired by [Brute.Fail](https://brute.fail/).
 
-Project inspired by [Brute.Fail](https://brute.fail/)
+[GitHub Repository](https://github.com/chomnr/live-security-monitor) (formerly BruteExpose)
 
-## Project Overview
+The system captures credentials used, origin (IP & country), attack protocol, and timestamps from authentication attempts.
 
-[Live Security Monitor](https://github.com/chomnr/live-security-monitor) (formerly BruteExpose) logs login attempts to OpenSSH servers. It captures:
+## Technical Stack
 
-- Credentials used
-- Origin (IP & country)
-- Attack protocol
-- Timestamp
+Built in Java primarily to add a Java project to my portfolio. In hindsight, C or C++ would have been more suitable for this use case. Java familiarity from Minecraft plugin development made it the comfortable choice at the time.
 
-## Technical Implementation
+## Metrics & Analytics System
 
-### Language Choice
+The analytics system uses IPInfo's .mmdb (MaxMind database) for geolocation data. This required manual updates to prevent errors - the IPInfo API would have been better.
 
-I chose Java because I wanted to add a Java project to my portfolio. In retrospect, C or C++ would have been more appropriate for this use case. Java familiarity from Minecraft plugin development made it a comfortable choice.
+The modular analytics system allows easy addition or removal of statistics. All metrics are tracked in JSON files that get updated as new data comes in.
 
-### Metrics & Analytics System
-
-#### Data Collection
-
-For gathering metrics, I used IPInfo's .mmdb (MaxMind database). This required manual updates to prevent errors. The IPInfo API would have been a better choice.
-
-#### Analytics Processing
-
-I implemented a modular analytics system where statistics can be easily added or removed. The system updates JSON files where metrics are tracked.
-
-Current analytics (as of 6/1/2024):
-
+Current analytics include:
 - NumberOfAttemptsOverTime
-- AttackTotalByDayOfWeek
+- AttackTotalByDayOfWeek  
 - DistributionOfAttackProtocols
 - AttackOriginByCountry
 - AttackOriginByIp
 - CommonlyTargetedByCredential
 
-#### Implementing Custom Analytics
+Adding custom analytics follows a specific pattern. Here's how protocol-based metrics work:
 
-Here's how to add your own analytics:
-
-**ProtocolBasedMetrics.java**
-
-This file populates values in the JSON file that tracks analytics. Related metrics are grouped into a single function:
+**ProtocolBasedMetrics.java** populates values in the JSON analytics file:
 
 ```java
 private DistributionOfAttackProtocols distributionOfAttackProtocols
@@ -75,9 +57,7 @@ public void populate(ProtocolBasedType type) {
 }
 ```
 
-**DistributionOfAttackProtocols.java**
-
-The actual stat tracking mechanism using a HashMap:
+**DistributionOfAttackProtocols.java** handles the actual stat tracking with HashMap:
 
 ```java
 private HashMap protocols = new HashMap<>();
@@ -116,9 +96,7 @@ private String getNameOfProtocol(ProtocolBasedType type) {
 }
 ```
 
-**BruteMetricData.java**
-
-Where analytics are instantiated:
+**BruteMetricData.java** instantiates all analytics components:
 
 ```java
 private TimeBasedMetrics timeBasedMetrics;
@@ -143,19 +121,15 @@ public CredentialBasedMetrics getCredentialBasedMetrics() { return credentialBas
 
 ## OpenSSH Modification
 
-### Disabling Password Protection
-
-Standard OpenSSH includes a safety mechanism that prevents password leaking through timing attacks. When trying to dump passwords, you'll see:
+Standard OpenSSH includes safety mechanisms that prevent password leaking through timing attacks. When trying to dump passwords, you'll see:
 
 ```
 ^M^?INCORRECT^@
 ```
 
-To bypass this, remove the following line in the OpenSSH source code: https://github.com/openssh/openssh-portable/blob/df56a8035d429b2184ee94aaa7e580c1ff67f73a/auth-pam.c#L1198
+To bypass this protection, remove the following line in the OpenSSH source code: https://github.com/openssh/openssh-portable/blob/df56a8035d429b2184ee94aaa7e580c1ff67f73a/auth-pam.c#L1198
 
-### Credential Logging
-
-To capture credentials, we need a PAM module to dump them to a text file:
+For credential logging, a custom PAM module dumps credentials to a text file:
 
 ```c
 #include "library.h"
@@ -196,8 +170,6 @@ PAM_EXTERN int pam_sm_authenticate(pam_handle_t *pamh, int flags, int argc, cons
 }
 ```
 
-### PAM Module Integration
-
 After compiling the PAM module:
 
 1. Place the .pam file in `/lib/x86_64-linux-gnu/security/`
@@ -213,16 +185,16 @@ auth    optional                        libbe_pam.so
 auth    requisite                       pam_deny.so
 ```
 
-This configuration makes the system check `pam_unix.so` first. If successful, it skips the next 2 lines. If not, it hits our module and then the denial module.
+This configuration makes the system check `pam_unix.so` first. If successful, it skips the next 2 lines. If authentication fails, it hits our module and then the denial module.
 
-## Lessons Learned
+## What I'd Do Differently
 
-What I would do differently:
+Several design decisions proved suboptimal:
 
-1. Skip the modular analytics system for a simpler hardcoded approach. The current approach adds complexity for a project that requires an OpenSSH vulnerability to function.
+**Skip the modular analytics system** for a simpler hardcoded approach. The current complexity isn't justified for a project that requires an OpenSSH vulnerability to function.
 
-2. Use C for the entire project rather than Java. Using two languages introduces unnecessary complexity.
+**Use C for the entire project** rather than mixing Java and C. Using two languages introduces unnecessary complexity when C would handle everything more efficiently.
 
-3. Use the IPInfo API instead of .mmdb files to avoid manual updates.
+**Use the IPInfo API** instead of .mmdb files to avoid manual database updates and maintenance overhead.
 
-4. Replace JSON with SQLite for better data handling. JSON has read limitations when file size grows, while SQLite handles both read and write operations efficiently.
+**Replace JSON with SQLite** for better data handling. JSON has read performance issues as file size grows, while SQLite handles both read and write operations efficiently at any scale.
