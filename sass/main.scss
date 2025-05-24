@@ -7,6 +7,7 @@
 
   --color-background-selection: white;
   --color-text-selection: black;
+  --color-background-code: #121212;
 
   --default-font: 'Roboto Mono', monospace;
 
@@ -60,6 +61,7 @@ a {
 pre,
 code {
   white-space: pre-wrap;
+  background-color: var(--color-background-code) !important;
   word-break: break-word;
 }
 
