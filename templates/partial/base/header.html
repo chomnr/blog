@@ -1,7 +1,12 @@
 <meta charset="UTF-8" />
 <meta http-equiv="X-UA-Compatible" content="IE=edge" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Zeljko Vranjes - Blog</title>
+<title>{% if page %}{{ page.title }} | {% endif %}Zeljko Vranjes - Blog</title>
+<meta property="og:title" content="{% if page %}{{ page.title }}{% elif section %}{{ section.title }}{% else %}Zeljko's Blog{% endif %}" />
+<meta property="og:type" content="website" />
+<meta property="og:URL" content="https://blog.zeljkovranjes.com/" />
+<meta property="og:image" content="https://avatars.githubusercontent.com/u/68818452?v=4" />
+<meta property="og:description" content="I'm 25 years old. Who writes about software and investing." />
 <link rel="preconnect" href="https://fonts.googleapis.com" />
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link
