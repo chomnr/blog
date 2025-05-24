@@ -1,5 +1,5 @@
 +++
-title = "Technical Breakdown: Ark"
+title = "technical breakdown: ark"
 date = 2023-12-25
 +++
 

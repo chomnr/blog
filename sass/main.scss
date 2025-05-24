@@ -161,6 +161,7 @@ section.hero .page .meta .date {
   text-decoration: none;
   font-size: 0.71rem;
   color: #a9a9a9;
+  text-transform: lowercase;
 }
 
 section.hero .links {
@@ -191,6 +192,10 @@ section.content article.index {
     text-decoration: none;
   }
 
+  .date {
+    text-transform: lowercase;
+  }
+
   &:hover {
     .title {
       text-decoration: underline;
@@ -215,6 +220,7 @@ section.content article.index {
     gap: 3px;
     .date {
       font-size: 0.67rem;
+      text-transform: lowercase;
     }
   }
 }

@@ -1,5 +1,5 @@
 +++
-title = "Technical Breakdown: BruteExpose"
+title = "technical breakdown: bruteexpose"
 date = 2023-04-15
 +++
 

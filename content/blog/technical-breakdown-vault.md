@@ -1,5 +1,5 @@
 +++
-title = "Technical Breakdown: Vault"
+title = "technical breakdown: vault"
 date = 2024-11-10
 +++
 

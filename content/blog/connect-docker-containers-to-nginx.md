@@ -1,5 +1,5 @@
 +++
-title = "How to Connect Docker Containers to NGINX"
+title = "how to connect docker container to nginx"
 date = 2025-01-05
 +++
 
