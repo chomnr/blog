@@ -41,6 +41,7 @@ main {
   display: flex;
   flex-direction: column;
   overflow-wrap: break-word;
+  word-break: break-all;
   hyphens: auto;
   width: 100%;
   max-width: var(--max-width-page);
@@ -219,6 +220,7 @@ section.content article.index {
 section.content article.page {
   font-size: 0.73rem;
   line-height: 0.97rem;
+  padding: 10px 5px 10px 5px;
 }
 
 section.content article.page a {
