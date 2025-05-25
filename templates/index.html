@@ -35,12 +35,19 @@
 <section class="content">
 {% set blog_section = get_section(path="blog/_index.md") %}
 {% for year, posts in blog_section.pages | group_by(attribute="year") %}
-  {% for post in posts %}
-    {% if post.slug != "investment-income" %}
-      <article class="index" onclick="window.location='{{ post.permalink }}'" style="cursor: pointer;">
-        <span class="title">{{ post.title }}</span>
-        <span class="date">{{ post.date | date(format="%B, %-d, %Y") }}</span>
-      </article>
+  {% set sorted_posts = posts | sort(attribute="date", reverse=true) %}
+  {% set count = 0 %}
+  {% for post in sorted_posts %}
+    {% if count < 7 %}
+      {% if post.slug != "investment-income" %}
+        <article class="index" onclick="window.location='{{ post.permalink }}'" style="cursor: pointer;">
+          <span class="title">{{ post.title }}</span>
+          <span class="date">{{ post.date | date(format="%B, %-d, %Y") }}</span>
+        </article>
+      {% endif %}
+      {% set count = count + 1 %}
+    {% else %}
+      {% break %}
     {% endif %}
   {% endfor %}
 {% endfor %}
