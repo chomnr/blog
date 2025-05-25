@@ -176,15 +176,25 @@ section.hero .links {
   gap: 5px;
 }
 
+section article .title {
+  font-size: 0.73rem;
+  user-select: none;
+  color: white;
+}
+
+section article .content {
+  font-size: 0.73rem;
+  user-select: none;
+  color: var(--color-text);
+}
+
 section.about {
   flex-direction: column;
   flex: 1;
-  color: var(--color-text);
   gap: 7px;
 }
 
 section.about article {
-  font-size: 0.73rem;
   display: flex;
   flex-direction: column;
   gap: 7px;
@@ -196,9 +206,24 @@ section.about article .title {
   color: white;
 }
 
-section.about article .content {
-  
+section.contact {
+  flex-direction: column;
+  flex: 1;
+  gap: 7px;
 }
+
+section.contact article {
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 5px;
+}
+
+section.contact article .title {
+  user-select: none;
+  color: white;
+}
+
 
 section.content {
   flex: 1;
