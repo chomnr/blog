@@ -7,6 +7,7 @@
 
   --color-background-selection: white;
   --color-text-selection: black;
+  --color-text: #a9a9a9;
   --color-background-code: #121212;
 
   --default-font: 'Roboto Mono', monospace;
@@ -51,6 +52,10 @@ main {
 
 main > section {
   display: flex;
+}
+
+article {
+  line-height: 1rem;
 }
 
 a {
@@ -111,7 +116,7 @@ section.hero .author .meta .name {
 
 section.hero .author .meta .sub {
   font-size: 0.61rem;
-  color: #a9a9a9;
+  color: var(--color-text);
 }
 
 section.hero .entries {
@@ -160,7 +165,7 @@ section.hero .page .meta .title {
 section.hero .page .meta .date {
   text-decoration: none;
   font-size: 0.71rem;
-  color: #a9a9a9;
+  color: var(--color-text);
   text-transform: lowercase;
 }
 
@@ -171,10 +176,34 @@ section.hero .links {
   gap: 5px;
 }
 
+section.about {
+  flex-direction: column;
+  flex: 1;
+  color: var(--color-text);
+  gap: 7px;
+}
+
+section.about article {
+  font-size: 0.73rem;
+  display: flex;
+  flex-direction: column;
+  gap: 7px;
+  padding: 5px;
+}
+
+section.about article .title {
+  user-select: none;
+  color: white;
+}
+
+section.about article .content {
+  
+}
+
 section.content {
   flex: 1;
   flex-direction: column;
-  color: #a9a9a9;
+  color: var(--color-text);
   gap: 3px;
   max-width: var(--max-width-page);
   width: 100%;
@@ -227,7 +256,6 @@ section.content article.index {
 
 section.content article.page {
   font-size: 0.73rem;
-  line-height: 0.97rem;
   padding: 10px 5px 10px 5px;
 }
 

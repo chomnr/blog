@@ -14,15 +14,36 @@
         {% include "partial/social/npm.html" %}
     </div>
 </section>
+<section class="about">
+  <article>
+    <div class="title">ABOUT</div>
+    <div class="content">
+      I'm a <span id="age"></span> year old with a strong passion for software development and investing. 
+      I enjoy writing clean, simple code and occasionally explore reverse engineering. I also dabble 
+      in design from time to time.
+    </div>
+  </article>
+  <article>
+    <div class="title">PROJECT(S)</div>
+    <div class="content">
+      <a href="https://github.com/chomnr/live-security-monitor">live-security-monitor</a>, <a href="https://github.com/chomnr/blog-old">blog-old</a>, <a href="https://github.com/chomnr/terminal-chat-system">terminal-chat-system</a>, <a href="https://github.com/chomnr/infinitytoone">infinitytoone</a>, <a href="https://github.com/chomnr/win7-emulator">win7-emulator</a>, <a href="https://github.com/chomnr/SimpleCredentialManager">simple-credential-manager</a>, <a href="https://github.com/chomnr/infinitytoone">infinitytoone</a>, <a href="https://github.com/chomnr/win7-emulator">win7-emulator</a>, <a href="https://github.com/chomnr/ark">ark</a>,
+      <a href="https://github.com/chomnr/brute">brute</a>, <a href="https://github.com/chomnr/vault">vault</a>, <a href="https://github.com/chomnr/solid-posthog">solid-posthog</a>,
+      <a href="https://github.com/chomnr/solid-circle-flags">solid-circle-flags</a>
+    </div>
+  </article>
+</section>
 <section class="content">
 {% set blog_section = get_section(path="blog/_index.md") %}
 {% for year, posts in blog_section.pages | group_by(attribute="year") %}
   {% for post in posts %}
-    <article class="index" onclick="window.location='{{ post.permalink }}'" style="cursor: pointer;">
-      <span class="title">{{ post.title }}</span>
-      <span class="date">{{ post.date | date(format="%B, %-d, %Y") }}</span>
-    </article>
+    {% if post.slug != "investment-income" %}
+      <article class="index" onclick="window.location='{{ post.permalink }}'" style="cursor: pointer;">
+        <span class="title">{{ post.title }}</span>
+        <span class="date">{{ post.date | date(format="%B, %-d, %Y") }}</span>
+      </article>
+    {% endif %}
   {% endfor %}
 {% endfor %}
 </section>
+{% include "partial/script/age.html" %}
 {% endblock content %}

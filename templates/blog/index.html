@@ -9,12 +9,14 @@
 </section>
 <section class="content">
   {% for page in section.pages %}
-  <article class="index"
-    onclick="window.location='{{ page.permalink | safe }}'"
-    style="cursor: pointer">
-    <span class="title">{{ page.title }}</span>
-    <span class="date">{{ page.date | date(format="%B, %-d, %Y") }}</span>
-  </article>
-  {% endfor %}
+  {% if page.slug != "investment-income" %}
+    <article class="index"
+      onclick="window.location='{{ page.permalink | safe }}'"
+      style="cursor: pointer">
+      <span class="title">{{ page.title }}</span>
+      <span class="date">{{ page.date | date(format="%B, %-d, %Y") }}</span>
+    </article>
+  {% endif %}
+{% endfor %}
 </section>
 {% endblock content %}
