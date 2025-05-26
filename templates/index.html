@@ -24,16 +24,16 @@
     </div>
   </article>
   <article>
-    <div class="title">PROJECT(S)</div>
+    <div class="title">PROJECTS</div>
     <div id="projects" class="content"></div>
   </article>
 </section>
 <section class="content">
-<div class="title blog singleton" style="padding-left: 5px;padding-bottom: 4px;">ENTRIES</div>
+<div class="title blog singleton" style="padding-left: 5px;padding-bottom: 4px;"><a href="/blog/">ENTRIES&nbsp;↪</a></div>
 {% set blog_section = get_section(path="blog/_index.md") %}
 {% set post_count = 0 %}
 {% for post in blog_section.pages %}
-  {% if post.slug != "investment-income" and post_count < 7 %}
+  {% if post.slug != "investment-income" and post_count < 3 %}
     <article class="index" onclick="window.location='{{ post.permalink }}'" style="cursor: pointer;">
       <span class="title">{{ post.title }}</span>
       <span class="date">

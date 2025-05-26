@@ -240,6 +240,11 @@ section.content .title.singleton {
   user-select: none;
 }
 
+section.content .title.singleton a {
+  text-decoration: none;
+}
+
+
 section.content article.index {
   display: flex;
   align-items: center;
