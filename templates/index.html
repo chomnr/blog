@@ -25,14 +25,11 @@
   </article>
   <article>
     <div class="title">PROJECT(S)</div>
-    <div class="content">
-      <a href="https://github.com/chomnr/live-security-monitor">live-security-monitor</a>, <a href="https://github.com/chomnr/blog-old">blog-old</a>, <a href="https://github.com/chomnr/terminal-chat-system">terminal-chat-system</a>, <a href="https://github.com/chomnr/infinitytoone">infinitytoone</a>, <a href="https://github.com/chomnr/win7-emulator">win7-emulator</a>, <a href="https://github.com/chomnr/SimpleCredentialManager">simple-credential-manager</a>, <a href="https://github.com/chomnr/infinitytoone">infinitytoone</a>, <a href="https://github.com/chomnr/win7-emulator">win7-emulator</a>, <a href="https://github.com/chomnr/ark">ark</a>,
-      <a href="https://github.com/chomnr/brute">brute</a>, <a href="https://github.com/chomnr/vault">vault</a>, <a href="https://github.com/chomnr/solid-posthog">solid-posthog</a>,
-      <a href="https://github.com/chomnr/solid-circle-flags">solid-circle-flags</a>
-    </div>
+    <div id="projects" class="content"></div>
   </article>
 </section>
 <section class="content">
+<div class="title blog singleton" style="padding-left: 5px;padding-bottom: 4px;">ENTRIES</div>
 {% set blog_section = get_section(path="blog/_index.md") %}
 {% set post_count = 0 %}
 {% for post in blog_section.pages %}
@@ -53,5 +50,6 @@
     </div>
   </article>
 </section>
+{% include "partial/script/projects.html" %}
 {% include "partial/script/age.html" %}
 {% endblock content %}

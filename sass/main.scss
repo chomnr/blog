@@ -224,7 +224,6 @@ section.contact article .title {
   color: white;
 }
 
-
 section.content {
   flex: 1;
   flex-direction: column;
@@ -232,6 +231,12 @@ section.content {
   gap: 3px;
   max-width: var(--max-width-page);
   width: 100%;
+}
+
+section.content .title.singleton {
+  font-size: 0.73rem;
+  padding-bottom: 3px;
+  color: white;
 }
 
 section.content article.index {
