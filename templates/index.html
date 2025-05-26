@@ -36,7 +36,9 @@
   {% if post.slug != "investment-income" and post_count < 7 %}
     <article class="index" onclick="window.location='{{ post.permalink }}'" style="cursor: pointer;">
       <span class="title">{{ post.title }}</span>
-      <span class="date">{{ post.date | date(format="%B, %-d, %Y") }}</span>
+      <span class="date">
+        <span class="view-count" data-slug="{{ post.slug }}">0</span> views • {{ post.date | date(format="%B, %-d, %Y") }}
+      </span>
     </article>
     {% set_global post_count = post_count + 1 %}
   {% endif %}
@@ -50,6 +52,8 @@
     </div>
   </article>
 </section>
+
+{% include "partial/script/view-count.html" %}
 {% include "partial/script/projects.html" %}
 {% include "partial/script/age.html" %}
 {% endblock content %}

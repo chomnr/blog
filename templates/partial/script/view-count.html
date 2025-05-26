@@ -1,0 +1,42 @@
+<script>
+async function fetchViewCount(slug) {
+  try {
+    console.log(slug)
+    const response = await fetch('https://telemetry.zeljko.me/worker/posthog/pageview', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        slug: `/blog/${slug}/`
+      })
+    });
+    if (response.ok) {
+      const data = await response.json();
+      return data.views || data.count || 0;
+    } else {
+      console.warn(`Failed to fetch views for ${slug}:`, response.status);
+      return 0;
+    }
+  } catch (error) {
+    console.error(`Error fetching views for ${slug}:`, error);
+    return 0;
+  }
+}
+async function updateViewCounts() {
+  const viewElements = document.querySelectorAll('.view-count');
+  
+  for (const element of viewElements) {
+    const slug = element.getAttribute('data-slug');
+    if (slug) {
+      try {
+        const viewCount = await fetchViewCount(slug);
+        element.textContent = viewCount;
+      } catch (error) {
+        element.textContent = '0';
+      }
+    }
+  }
+}
+document.addEventListener('DOMContentLoaded', updateViewCounts);
+</script>
