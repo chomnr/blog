@@ -1,6 +1,6 @@
 /* STYLING */
 :root {
-  --color-background: #0a0a0a;
+  --color-background: rgba(10, 10, 10, 1);
 
   --max-width-page: 701px;
   --max-height-gap: 29px;
@@ -21,7 +21,7 @@
 
 /* TYPE SELECTORS */
 html {
-  background: var(--color-background);
+  background-color: var(--color-background);
 }
 
 body {
