@@ -5,7 +5,9 @@
       <a href="/blog" class="name">↩&nbsp;PAGE</a>
       <div style="display: flex; flex-direction: column;gap:3px;">
         <a class="title">{{ page.title }}</a>
-        <a class="date">{{ page.date | date(format="%B, %-d, %Y") }}</a>
+        <div class="date">
+          <span class="view-count" data-slug="{{ page.slug }}">0</span> views • {{ page.date | date(format="%B, %-d, %Y") }}
+        </div>
       </div>
     </div>
   </div>
@@ -13,49 +15,5 @@
 <section class="content">
   <article class="page">{{ page.content | safe }}</article>
 </section>
-<!--
-<div class="content">
-  <div class="col" style="gap: 7px">
-    <div
-      class="column"
-      style="font-size: 0.85rem; justify-content: center; gap: 25px">
-      <a href="/" style="text-decoration: none">
-        <svg
-          xmlns="http://www.w3.org/2000/svg"
-          width="16"
-          height="16"
-          fill="currentColor"
-          class="bi bi-arrow-90deg-left"
-          viewBox="0 0 16 16">
-          <path
-            fill-rule="evenodd"
-            d="M1.146 4.854a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 4H12.5A2.5 2.5 0 0 1 15 6.5v8a.5.5 0 0 1-1 0v-8A1.5 1.5 0 0 0 12.5 5H2.707l3.147 3.146a.5.5 0 1 1-.708.708z" />
-        </svg>
-        BLOG
-      </a>
-      <div class="header">
-        <div class="title">{{ page.title }}</div>
-        <div class="date">{{ page.date | date(format="%B, %-d, %Y") }}</div>
-      </div>
-      <div class="links">
-        <a
-          href="https://github.com/chomnr/blog/tree/main/content/{{ page.relative_path }}">
-          <svg
-            xmlns="http://www.w3.org/2000/svg"
-            width="16"
-            height="16"
-            fill="currentColor"
-            class="bi bi-code"
-            viewBox="0 0 16 16">
-            <path
-              d="M5.854 4.854a.5.5 0 1 0-.708-.708l-3.5 3.5a.5.5 0 0 0 0 .708l3.5 3.5a.5.5 0 0 0 .708-.708L2.707 8zm4.292 0a.5.5 0 0 1 .708-.708l3.5 3.5a.5.5 0 0 1 0 .708l-3.5 3.5a.5.5 0 0 1-.708-.708L13.293 8z" />
-          </svg>
-        </a>
-      </div>
-    </div>
-  </div>
-</div>
-<div class="post-content">{{ page.content | safe }} 
-  
--->
+{% include "partial/script/view-count.html" %}
 {% endblock content %}

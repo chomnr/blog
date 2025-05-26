@@ -1,7 +1,7 @@
+
 <script>
 async function fetchViewCount(slug) {
   try {
-    console.log(slug)
     const response = await fetch('https://telemetry.zeljko.me/worker/posthog/pageview', {
       method: 'POST',
       headers: {
@@ -13,9 +13,9 @@ async function fetchViewCount(slug) {
     });
     if (response.ok) {
       const data = await response.json();
-      return data.views || data.count || 0;
+      return data.pageViews || 0;
     } else {
-      console.warn(`Failed to fetch views for ${slug}:`, response.status);
+      console.warn(`Failed to fetch views for ${slug}:`, response.status, response.statusText);
       return 0;
     }
   } catch (error) {
@@ -33,6 +33,7 @@ async function updateViewCounts() {
         const viewCount = await fetchViewCount(slug);
         element.textContent = viewCount;
       } catch (error) {
+        console.error(`Error updating view count for ${slug}:`, error);
         element.textContent = '0';
       }
     }
