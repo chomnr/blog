@@ -176,6 +176,21 @@ section.hero .links {
   gap: 5px;
 }
 
+section.search {
+  font-size: 0.71rem;
+  color: white;
+}
+
+section.search input {
+  background-color: transparent;
+  outline: none;
+  border: none;
+  padding: 3px;
+  color: var(--color-text);
+  width: 100%;
+  border-bottom: 1px solid #121212;
+}
+
 section article .title {
   font-size: 0.73rem;
   user-select: none;
