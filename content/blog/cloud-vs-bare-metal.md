@@ -7,4 +7,4 @@ The biggest difference between cloud and bare-metal is scalability. If you have 
 
 Cloud usually seems more affordable at first, but that changes quickly especially once you start adding additional services. The bill can add up fast.
 
-I haven’t run a large operation on either platform, so this is mostly speculation, but the cost difference becomes obvious when you compare long-term usage.
+I haven’t run a large operation on either the cloud or bare-metal, so this is mostly speculation, but the cost difference becomes obvious when you compare long-term usage.
