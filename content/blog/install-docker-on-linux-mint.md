@@ -3,7 +3,7 @@ title = "how to install docker on linux mint"
 date = 2025-05-30
 +++
 
-This guide explains how to install Docker on Linux Mint/Ubuntu systems.
+This guide explains how to install Docker on Linux Mint/Ubuntu.
 
 ## Install Required Packages
 
