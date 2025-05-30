@@ -1,5 +1,5 @@
 +++
-title = "cloud vs bare-metal (long-term)"
+title = "cloud vs bare-metal cost (long-term)"
 date = 2025-05-26
 +++
 
