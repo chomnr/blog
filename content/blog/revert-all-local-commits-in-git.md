@@ -22,6 +22,7 @@ If you want to ensure you have the latest remote changes first:
 ```bash
 git fetch origin
 git reset --hard origin/main
+git clean -fd
 ```
 
 ### Method 3: Reset to Specific Remote Branch
