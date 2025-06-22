@@ -5,7 +5,7 @@ date = 2024-09-21
 
 A complete rewrite of my previous security monitoring tool, addressing major design flaws and performance issues. Brute monitors authentication attempts on your server with real-time processing and reliable data storage.
 
-[GitHub Repository](https://github.com/chomnr/brute)
+[GitHub Repository](https://github.com/zeljkovranjes/brute)
 
 ## What Was Wrong with BruteExpose
 
@@ -22,6 +22,7 @@ Tracked password usage, usernames, metrics (hourly, daily, weekly), country data
 
 **Inefficient Log Processing**
 The workflow was wasteful:
+
 - Wait for OpenSSH to dump credentials to text file
 - Read file contents
 - Parse individual entries
@@ -104,6 +105,7 @@ async fn post_brute_attack_add(
 ```
 
 The workflow is straightforward:
+
 1. Verify authentication via bearer token
 2. Validate IP address (no local addresses)
 3. Perform data validation (string length, IP range verification)
@@ -202,6 +204,7 @@ impl Reportable<BruteReporter, Individual> for Individual {
 This creates database entries with clean, maintainable patterns.
 
 To minimize IPInfo API usage, a caching system stores IP data:
+
 1. Check if IP exists in cache
 2. If found and less than 5 minutes old, use cached data
 3. If not found or stale, fetch from API

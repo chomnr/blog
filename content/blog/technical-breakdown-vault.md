@@ -9,7 +9,7 @@ I released my credential manager last month and am finally getting around to doc
 
 My original credential manager was built as a terminal application in C# with .NET 7. While functional and cross-platform, it required executing an `.exe` file and had limited portability compared to web-based solutions. The core functionality was straightforward: users would create an AES key and credential store, then upload both to modify their stored credentials.
 
-The [new implementation](https://github.com/chomnr/vault) uses a completely different technology stack with Next.js and TypeScript for the frontend, Next.js API routes for the backend, MongoDB with Prisma ORM for data storage, and AES encryption with iron-session for authentication. This technology selection was deliberate, creating a more accessible and maintainable solution while preserving strong security principles.
+The [new implementation](https://github.com/zeljkovranjes/vault) uses a completely different technology stack with Next.js and TypeScript for the frontend, Next.js API routes for the backend, MongoDB with Prisma ORM for data storage, and AES encryption with iron-session for authentication. This technology selection was deliberate, creating a more accessible and maintainable solution while preserving strong security principles.
 
 **Database Architecture:**
 
@@ -53,17 +53,17 @@ Session management is handled through the iron-session library, which provides s
 
 ```typescript
 export async function isAuthenticated() {
-  const session = await getIronSession(cookies(), SESSION_OPTIONS)
-  const COOKIE_AGE_OFFSET = COOKIE_MAX_AGE(session?.remember) * 1000
+  const session = await getIronSession(cookies(), SESSION_OPTIONS);
+  const COOKIE_AGE_OFFSET = COOKIE_MAX_AGE(session?.remember) * 1000;
 
   if (
     !session ||
     Object.keys(session).length === 0 ||
     Date.now() > session.timeStamp + COOKIE_AGE_OFFSET
   ) {
-    return false
+    return false;
   } else {
-    return true
+    return true;
   }
 }
 ```
@@ -75,41 +75,41 @@ This implementation retrieves the encrypted cookie from the request, verifies th
 I maintained AES as the encryption algorithm, using AES-CBC with 256-bit keys for industry-standard security:
 
 ```typescript
-const generatedKey = randomBytes(32) // 256 bits
+const generatedKey = randomBytes(32); // 256 bits
 const cipher = forge.cipher.createCipher(
-  'AES-CBC',
+  "AES-CBC",
   forge.util.createBuffer(generatedKey)
-)
-cipher.start({iv})
-cipher.update(forge.util.createBuffer('secret'))
-const success = cipher.finish()
+);
+cipher.start({ iv });
+cipher.update(forge.util.createBuffer("secret"));
+const success = cipher.finish();
 
 if (!success)
   return err_route(
     VAULT_ENCRYPTION_FAILED.status,
     VAULT_ENCRYPTION_FAILED.msg,
     VAULT_ENCRYPTION_FAILED.code
-  )
+  );
 
-const encrypted = cipher.output
-const headers = new Headers()
-headers.set('Content-Disposition', 'attachment; filename="aes-key.aes"')
-headers.set('Content-Type', 'application/octet-stream')
+const encrypted = cipher.output;
+const headers = new Headers();
+headers.set("Content-Disposition", 'attachment; filename="aes-key.aes"');
+headers.set("Content-Type", "application/octet-stream");
 
 await prisma.vault.create({
   data: {
     name: name,
     maxCredentials: maxCredentials,
-    secret: Buffer.from(encrypted.getBytes(), 'binary').toString('base64'),
-    iv: Buffer.from(iv, 'binary').toString('base64')
-  }
-})
+    secret: Buffer.from(encrypted.getBytes(), "binary").toString("base64"),
+    iv: Buffer.from(iv, "binary").toString("base64"),
+  },
+});
 
-prisma.$disconnect()
-return new NextResponse(Buffer.from(generatedKey).toString('base64'), {
+prisma.$disconnect();
+return new NextResponse(Buffer.from(generatedKey).toString("base64"), {
   status: 200,
-  headers
-})
+  headers,
+});
 ```
 
 When a user creates a vault, the system generates a cryptographically secure 256-bit key, encrypts a known validation string ("secret") with this key, stores the encrypted validation string and IV in the database, returns the actual encryption key to the user for safekeeping, and requires this key for future access to the vault. This approach ensures the encryption key never remains on the server, maintaining a zero-knowledge security model.

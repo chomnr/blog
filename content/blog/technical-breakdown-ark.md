@@ -3,7 +3,7 @@ title = "technical breakdown: ark"
 date = 2023-12-25
 +++
 
-[**chomnr/ark**](https://github.com/chomnr/ark) is a full-stack monolithic application with a robust Identity and Access Management (IAM) solution at its core. Initially developed as a closed-source component for a side project, I've since decided to release it to the public.
+[**zeljkovranjes/ark**](https://github.com/zeljkovranjes/ark) is a full-stack monolithic application with a robust Identity and Access Management (IAM) solution at its core. Initially developed as a closed-source component for a side project, I've since decided to release it to the public.
 
 Below, I'll walk through my thought process and reasoning behind key design decisions during the development of this project. For each component, I'll detail the advantages, disadvantages, and potential alternative approaches.
 
@@ -16,6 +16,7 @@ The Task System was designed to delegate database operations (it's pretty much j
 Consider the difference between traditional database operations and the Task System approach:
 
 Traditional approach:
+
 ```rust
 pub fn create_permission(database: PostgresDatabase, permission: Permission) -> Result<T> {
     /* perform operation here */
@@ -23,6 +24,7 @@ pub fn create_permission(database: PostgresDatabase, permission: Permission) -> 
 ```
 
 Task System approach:
+
 ```rust
 pub fn create_permission(permission: Permission) -> TaskResult<T> {
     /* queue message here */

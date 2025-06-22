@@ -5,7 +5,7 @@ date = 2023-04-15
 
 A security monitoring tool that logs login attempts to OpenSSH servers, inspired by [Brute.Fail](https://brute.fail/).
 
-[GitHub Repository](https://github.com/chomnr/live-security-monitor) (formerly BruteExpose)
+[GitHub Repository](https://github.com/zeljkovranjes/live-security-monitor) (formerly BruteExpose)
 
 The system captures credentials used, origin (IP & country), attack protocol, and timestamps from authentication attempts.
 
@@ -20,8 +20,9 @@ The analytics system uses IPInfo's .mmdb (MaxMind database) for geolocation data
 The modular analytics system allows easy addition or removal of statistics. All metrics are tracked in JSON files that get updated as new data comes in.
 
 Current analytics include:
+
 - NumberOfAttemptsOverTime
-- AttackTotalByDayOfWeek  
+- AttackTotalByDayOfWeek
 - DistributionOfAttackProtocols
 - AttackOriginByCountry
 - AttackOriginByIp
