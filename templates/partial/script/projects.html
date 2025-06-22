@@ -1,31 +1,54 @@
 <script>
   (function () {
     const projects = [
-      { name: "live-security-monitor", url: "https://github.com/chomnr/live-security-monitor" },
-      { name: "blog-old", url: "https://github.com/chomnr/blog-old" },
-      { name: "terminal-chat-system", url: "https://github.com/chomnr/terminal-chat-system" },
-      { name: "infinitytoone", url: "https://github.com/chomnr/infinitytoone" },
-      { name: "win7-emulator", url: "https://github.com/chomnr/win7-emulator" },
-      { name: "simple-credential-manager", url: "https://github.com/chomnr/SimpleCredentialManager" },
-      { name: "ark", url: "https://github.com/chomnr/ark" },
-      { name: "brute", url: "https://github.com/chomnr/brute" },
-      { name: "vault", url: "https://github.com/chomnr/vault" },
-      { name: "solid-posthog", url: "https://github.com/chomnr/solid-posthog" },
-      { name: "solid-circle-flags", url: "https://github.com/chomnr/solid-circle-flags" },
-    ]
-    const uniqueProjects = Array.from(new Map(projects.map(p => [p.name, p])).values());
-    const container = document.getElementById("projects")
+      {
+        name: "live-security-monitor",
+        url: "https://github.com/zeljkovranjes/live-security-monitor",
+      },
+      { name: "blog-old", url: "https://github.com/zeljkovranjes/blog-old" },
+      {
+        name: "terminal-chat-system",
+        url: "https://github.com/zeljkovranjes/terminal-chat-system",
+      },
+      {
+        name: "infinitytoone",
+        url: "https://github.com/zeljkovranjes/infinitytoone",
+      },
+      {
+        name: "win7-emulator",
+        url: "https://github.com/zeljkovranjes/win7-emulator",
+      },
+      {
+        name: "simple-credential-manager",
+        url: "https://github.com/zeljkovranjes/SimpleCredentialManager",
+      },
+      { name: "ark", url: "https://github.com/zeljkovranjes/ark" },
+      { name: "brute", url: "https://github.com/zeljkovranjes/brute" },
+      { name: "vault", url: "https://github.com/zeljkovranjes/vault" },
+      {
+        name: "solid-posthog",
+        url: "https://github.com/zeljkovranjes/solid-posthog",
+      },
+      {
+        name: "solid-circle-flags",
+        url: "https://github.com/zeljkovranjes/solid-circle-flags",
+      },
+    ];
+    const uniqueProjects = Array.from(
+      new Map(projects.map((p) => [p.name, p])).values()
+    );
+    const container = document.getElementById("projects");
     if (container) {
       uniqueProjects.forEach((project, index) => {
-        const link = document.createElement("a")
-        link.href = project.url
+        const link = document.createElement("a");
+        link.href = project.url;
         link.textContent = project.name;
-        link.target = "_blank"
-        container.appendChild(link)
+        link.target = "_blank";
+        container.appendChild(link);
         if (index !== uniqueProjects.length - 1) {
-          container.appendChild(document.createTextNode(", "))
+          container.appendChild(document.createTextNode(", "));
         }
-      })
+      });
     }
   })();
 </script>
